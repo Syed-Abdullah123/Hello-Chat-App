@@ -8,6 +8,7 @@ import WelcomeScreen from "../screens/WelcomeScreen";
 import SignUpScreen from "../screens/SignupScreen";
 import SignInScreen from "../screens/SigninScreen";
 import ChatUsersScreen from "../screens/ChatUsersScreen";
+import ChatScreen from "../screens/ChatScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -15,7 +16,11 @@ const StackNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Welcome" component={WelcomeScreen} />
+        <Stack.Screen
+          name="Welcome"
+          component={WelcomeScreen}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name="Signup" component={SignUpScreen} />
         <Stack.Screen name="Signin" component={SignInScreen} />
         <Stack.Screen
@@ -23,6 +28,9 @@ const StackNavigator = () => {
           component={ChatUsersScreen}
           options={{
             headerBackVisible: false,
+            headerTitle: "Chatting Room",
+            headerStyle: { backgroundColor: "transparent" },
+            headerShadowVisible: false,
             headerRight: () => {
               return (
                 <View style={{ flexDirection: "row", gap: 10 }}>
@@ -31,6 +39,15 @@ const StackNavigator = () => {
                 </View>
               );
             },
+          }}
+        />
+        <Stack.Screen
+          name="ChatScreen"
+          component={ChatScreen}
+          options={{
+            headerStyle: { backgroundColor: "transparent" },
+            headerShadowVisible: false,
+            headerBackVisible: false,
           }}
         />
       </Stack.Navigator>
