@@ -9,6 +9,7 @@ import {
 // import { createUserWithEmailAndPassword } from 'firebase/auth';
 // import { FIREBASE_AUTH } from '../firebase/config';
 import { useNavigation } from "@react-navigation/native";
+import Button from "../components/Button";
 
 const SignUpScreen = () => {
   const [username, setUsername] = useState("");
@@ -36,52 +37,54 @@ const SignUpScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Create Account</Text>
+      <View style={styles.inputContainer}>
+        <View style={styles.field}>
+          <Text style={styles.label}>Username</Text>
+          <TextInput
+            style={styles.input}
+            value={username}
+            onChangeText={setUsername}
+          />
+        </View>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
+        <View style={styles.field}>
+          <Text style={styles.label}>Email</Text>
+          <TextInput
+            style={styles.input}
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+        </View>
+
+        <View style={styles.field}>
+          <Text style={styles.label}>Password</Text>
+          <TextInput
+            style={styles.input}
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+        </View>
+
+        <View style={styles.field}>
+          <Text style={styles.label}>Confirm Password</Text>
+          <TextInput
+            style={styles.input}
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            secureTextEntry
+          />
+        </View>
+      </View>
+
+      <Button
+        title="Sign Up"
+        onPress={() => navigation.navigate("Signin")}
+        loading={loading}
+        style={{ marginTop: 20 }}
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Confirm Password"
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        secureTextEntry
-      />
-
-      <TouchableOpacity
-        style={[styles.button, loading && styles.buttonDisabled]}
-        disabled={loading}
-        onPress={() => navigation.navigate("Users")}
-      >
-        <Text style={styles.buttonText}>
-          {loading ? "Creating Account..." : "Sign Up"}
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => navigation.navigate("Signin")}>
-        <Text style={styles.linkText}>Already have an account? Sign In</Text>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -89,45 +92,29 @@ const SignUpScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    padding: 20,
+    paddingTop: 20,
     backgroundColor: "#f5f5f5",
   },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    marginBottom: 30,
-    textAlign: "center",
+  inputContainer: {
+    paddingTop: 10,
+  },
+  field: {
+    marginBottom: 14,
+  },
+  label: {
+    fontSize: 14,
     color: "#333",
+    marginBottom: 6,
   },
   input: {
     backgroundColor: "#fff",
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 15,
-    fontSize: 16,
-    borderWidth: 1,
+    borderRadius: 25,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
     borderColor: "#ddd",
-  },
-  button: {
-    backgroundColor: "#007AFF",
-    padding: 15,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  buttonDisabled: {
-    backgroundColor: "#999",
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "600",
-  },
-  linkText: {
-    color: "#007AFF",
-    textAlign: "center",
-    marginTop: 20,
-    fontSize: 16,
+    borderWidth: 1,
+    fontSize: 15,
+    color: "#333",
   },
 });
 
