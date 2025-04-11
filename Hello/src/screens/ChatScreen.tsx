@@ -10,7 +10,7 @@ const ChatScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text>Welcome to ChatScreen</Text>
+      <Text>ChatScreen</Text>
     </View>
   );
 };
