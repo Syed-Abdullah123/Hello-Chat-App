@@ -6,14 +6,19 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
+  Platform,
 } from "react-native";
+import Checkbox from "expo-checkbox";
+import { FontAwesome5 } from "@expo/vector-icons";
 // import { signInWithEmailAndPassword } from 'firebase/auth';
 // import { FIREBASE_AUTH } from '../firebase/config';
 import { useNavigation } from "@react-navigation/native";
+import Button from "../components/Button";
 
 const SignInScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<any>();
 
@@ -30,38 +35,69 @@ const SignInScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome Back</Text>
+      <View style={styles.inputContainer}>
+        <View style={styles.field}>
+          <Text style={styles.label}>Email</Text>
+          <TextInput
+            style={styles.input}
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+        </View>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
+        <View style={styles.field}>
+          <Text style={styles.label}>Password</Text>
+          <TextInput
+            style={styles.input}
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+        </View>
+
+        <View style={styles.rememberContainer}>
+          <View style={styles.rememberMe}>
+            <Checkbox
+              value={rememberMe}
+              onValueChange={setRememberMe}
+              color={rememberMe ? "#007AFF" : undefined}
+              hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
+            />
+            <Text style={styles.rememberText}>Remember Me</Text>
+          </View>
+          <TouchableOpacity onPress={() => Alert.alert("Reset Password")}>
+            <Text style={styles.forgotText}>Forgot Password?</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      <Button
+        title="Sign In"
+        onPress={() => navigation.navigate("Chat")}
+        loading={loading}
+        style={{ marginTop: 20 }}
       />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
+      {/* Divider */}
+      <View style={styles.dividerContainer}>
+        <View style={styles.line} />
+        <Text style={styles.dividerText}>Or Sign in with</Text>
+        <View style={styles.line} />
+      </View>
 
-      <TouchableOpacity
-        style={[styles.button, loading && styles.buttonDisabled]}
-        // onPress={handleSignIn}
-        disabled={loading}
-      >
-        <Text style={styles.buttonText}>
-          {loading ? "Signing In..." : "Sign In"}
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
-        <Text style={styles.linkText}>Need an account? Sign Up</Text>
-      </TouchableOpacity>
+      {/* Social Buttons */}
+      <View style={styles.socialContainer}>
+        <TouchableOpacity style={styles.socialButton}>
+          <FontAwesome5 name="google" size={20} color="#EA4335" />
+          <Text style={styles.socialText}>Google</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.socialButton}>
+          <FontAwesome5 name="facebook" size={24} color="#3b5998" />
+          <Text style={styles.socialText}>Facebook</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -69,45 +105,82 @@ const SignInScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    padding: 20,
+    paddingTop: 20,
     backgroundColor: "#f5f5f5",
   },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    marginBottom: 30,
-    textAlign: "center",
+  inputContainer: {
+    paddingTop: 20,
+  },
+  field: {
+    marginBottom: 14,
+  },
+  label: {
+    fontSize: 14,
     color: "#333",
+    marginBottom: 6,
   },
   input: {
     backgroundColor: "#fff",
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 15,
-    fontSize: 16,
-    borderWidth: 1,
+    borderRadius: 25,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
     borderColor: "#ddd",
+    borderWidth: 1,
+    fontSize: 15,
+    color: "#333",
   },
-  button: {
-    backgroundColor: "#007AFF",
-    padding: 15,
-    borderRadius: 8,
+  rememberContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginVertical: 10,
+  },
+  rememberMe: {
+    flexDirection: "row",
     alignItems: "center",
   },
-  buttonDisabled: {
-    backgroundColor: "#999",
+  rememberText: {
+    marginLeft: 8,
+    fontSize: 14,
+    color: "#333",
   },
-  buttonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "600",
-  },
-  linkText: {
+  forgotText: {
+    fontSize: 14,
     color: "#007AFF",
-    textAlign: "center",
-    marginTop: 20,
-    fontSize: 16,
+  },
+  dividerContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 25,
+  },
+  line: {
+    flex: 1,
+    height: 1,
+    backgroundColor: "#ccc",
+  },
+  dividerText: {
+    marginHorizontal: 12,
+    fontSize: 12,
+    color: "#333",
+  },
+  socialContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  socialButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#eee",
+    paddingVertical: 13,
+    paddingHorizontal: 20,
+    borderRadius: 25,
+    width: "45%",
+    justifyContent: "center",
+  },
+  socialText: {
+    marginLeft: 10,
+    fontSize: 14,
+    color: "#333",
   },
 });
 
