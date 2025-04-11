@@ -1,66 +1,107 @@
+// import React from "react";
+// import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+
+// const WelcomeScreen = () => {
+//   const navigation = useNavigation<any>();
+
+//   return (
+//     <View style={styles.container}>
+//       <Text style={styles.title}>Welcome to ChatApp</Text>
+//       <Text style={styles.subtitle}>Connect with friends in real-time</Text>
+
+//       <TouchableOpacity
+//         style={styles.button}
+//         onPress={() => navigation.navigate("Signup")}
+//       >
+//         <Text style={styles.buttonText}>Sign Up</Text>
+//       </TouchableOpacity>
+
+//       <TouchableOpacity
+//         style={[styles.button, styles.signInButton]}
+//         onPress={() => navigation.navigate("Signin")}
+//       >
+//         <Text style={styles.buttonText}>Sign In</Text>
+//       </TouchableOpacity>
+//     </View>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     justifyContent: "center",
+//     alignItems: "center",
+//     padding: 20,
+//     backgroundColor: "#f5f5f5",
+//   },
+//   title: {
+//     fontSize: 32,
+//     fontWeight: "bold",
+//     marginBottom: 10,
+//     color: "#333",
+//   },
+//   subtitle: {
+//     fontSize: 18,
+//     color: "#666",
+//     marginBottom: 40,
+//   },
+//   button: {
+//     backgroundColor: "#007AFF",
+//     paddingVertical: 15,
+//     paddingHorizontal: 40,
+//     borderRadius: 8,
+//     marginVertical: 10,
+//     width: "80%",
+//     alignItems: "center",
+//   },
+//   signInButton: {
+//     backgroundColor: "#34C759",
+//   },
+//   buttonText: {
+//     color: "#fff",
+//     fontSize: 18,
+//     fontWeight: "600",
+//   },
+// });
+
+// export default WelcomeScreen;
+
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  Dimensions,
-} from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { CommonActions } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 
-const { width } = Dimensions.get("window");
-
-export default function WelcomeScreen() {
+export default function SplashScreen() {
   const navigation = useNavigation<any>();
 
   return (
     <View style={styles.container}>
-      {/* Top illustration or hero image */}
-      {/* <Image
-        source={require("../../assets/images/chat-illustration.png")}
-        style={styles.heroImage}
-        resizeMode="contain"
-      /> */}
-
-      {/* Title & Tagline */}
-      <View style={styles.textContainer}>
-        <Text style={styles.title}>Welcome to</Text>
-        <Text style={styles.appName}>Chatter</Text>
-        <Text style={styles.tagline}>
-          A modern way to stay connected with your world.
-        </Text>
+      <Image
+        source={require("../../assets/images/6346.jpg")}
+        style={styles.logo}
+      ></Image>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>Say </Text>
+        <Text style={[styles.title, styles.strokeText]}>Hello </Text>
+        <Text style={styles.title}>to Chatting</Text>
       </View>
+      <Text style={styles.description}>
+        Connect with friends and family instantly with Hello. Start Chatting
+        now!
+      </Text>
 
-      {/* Get Started Button */}
-      <TouchableOpacity
-        style={styles.getStartedButton}
-        onPress={() => navigation.navigate("AuthTabs", { screen: "Signup" })}
-      >
-        <Text style={styles.getStartedText}>Get Started</Text>
-        <Image
-          source={require("../../assets/images/arrow-right.png")}
-          style={styles.arrowIcon}
-        />
-      </TouchableOpacity>
-
-      {/* Social Logins (optional placeholder) */}
-      <View style={styles.socialContainer}>
-        <Text style={styles.orText}>Or continue with</Text>
-        {/* <View style={styles.socialRow}>
-          <TouchableOpacity style={styles.socialButton}>
-            <Image
-              source={require("../../assets/icons/google.png")}
-              style={styles.socialIcon}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.socialButton}>
-            <Image
-              source={require("../../assets/icons/facebook.png")}
-              style={styles.socialIcon}
-            />
-          </TouchableOpacity>
-        </View> */}
+      {/* Button container */}
+      <View style={styles.outerContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Signup")}
+          style={styles.buttonContainer}
+        >
+          <Text style={styles.text}>Get Started</Text>
+          <Image
+            source={require("../../assets/images/arrow-right.png")}
+            style={{ width: 40, height: 40 }}
+          />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -69,92 +110,63 @@ export default function WelcomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F7F9FC",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: 40,
+    backgroundColor: "#fff",
+    gap: 10,
   },
-  heroImage: {
-    width: width * 0.85,
-    height: width * 0.85,
-    marginTop: 30,
+  logo: {
+    width: "100%",
+    height: "47%",
   },
-  textContainer: {
+  titleContainer: {
+    flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 30,
-    marginTop: 10,
+    flexWrap: "wrap",
+    paddingHorizontal: 20,
   },
   title: {
-    fontSize: 28,
-    color: "#333",
-    fontWeight: "600",
-  },
-  appName: {
-    fontSize: 42,
+    fontSize: 60,
     fontWeight: "bold",
-    color: "#5F9DF7",
-    marginTop: -5,
+    color: "#84AEBD",
   },
-  tagline: {
-    fontSize: 16,
-    color: "#555",
+  description: {
+    fontSize: 20,
     textAlign: "center",
-    marginTop: 10,
+    color: "#333",
+    paddingHorizontal: 20,
   },
-  getStartedButton: {
-    backgroundColor: "#5F9DF7",
-    paddingVertical: 14,
-    paddingHorizontal: 35,
-    borderRadius: 30,
+  strokeText: {
+    color: "#82d7b3",
+    textShadowColor: "#a7a7a7",
+    fontSize: 80,
+  },
+  outerContainer: {
+    borderWidth: 2,
+    borderRadius: 15,
     flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 5,
-    elevation: 5,
-    marginTop: 20,
+    width: "90%",
+    alignSelf: "center",
+    justifyContent: "center",
+    backgroundColor: "#d6d6d6",
+    margin: 10,
   },
-  getStartedText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "600",
-  },
-  arrowIcon: {
-    width: 24,
-    height: 24,
-    tintColor: "#fff",
-  },
-  socialContainer: {
-    alignItems: "center",
-    marginBottom: 30,
-  },
-  orText: {
-    color: "#888",
-    fontSize: 14,
-    marginBottom: 10,
-  },
-  socialRow: {
+  buttonContainer: {
+    borderWidth: 2,
+    borderRadius: 15,
+    // padding: 10,
     flexDirection: "row",
-    gap: 20,
-  },
-  socialButton: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: "#fff",
+    width: "98%",
+    alignSelf: "center",
+    bottom: 5,
+    backgroundColor: "white",
+    padding: 20,
     alignItems: "center",
     justifyContent: "center",
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    shadowOffset: { width: 0, height: 2 },
+    gap: 20,
   },
-  socialIcon: {
-    width: 26,
-    height: 26,
-    resizeMode: "contain",
+  text: {
+    color: "#82d7b3",
+    fontWeight: "bold",
+    textAlign: "center",
+    fontSize: 22,
   },
 });
