@@ -5,10 +5,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import WelcomeScreen from "../screens/WelcomeScreen";
-import SignUpScreen from "../screens/SignupScreen";
-import SignInScreen from "../screens/SigninScreen";
+// import SignUpScreen from "../screens/SignupScreen";
+// import SignInScreen from "../screens/SigninScreen";
 import ChatUsersScreen from "../screens/ChatUsersScreen";
 import ChatScreen from "../screens/ChatScreen";
+import AuthNavigator from "./AuthNavigator";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,8 +22,11 @@ const StackNavigator = () => {
           component={WelcomeScreen}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="Signup" component={SignUpScreen} />
-        <Stack.Screen name="Signin" component={SignInScreen} />
+        <Stack.Screen
+          name="AuthTabs"
+          component={AuthNavigator}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="Users"
           component={ChatUsersScreen}
