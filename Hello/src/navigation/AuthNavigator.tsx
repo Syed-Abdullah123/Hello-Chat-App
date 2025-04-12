@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import SignUpScreen from "../screens/SignupScreen";
 import SignInScreen from "../screens/SigninScreen";
@@ -93,7 +87,7 @@ const AuthNavigator = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#E5F5E4",
     paddingTop: 80,
     paddingHorizontal: 20,
   },
@@ -111,7 +105,7 @@ const styles = StyleSheet.create({
   },
   tabWrapper: {
     flexDirection: "row",
-    backgroundColor: "#eee",
+    backgroundColor: "#ffffff80",
     borderRadius: 25,
     padding: 6,
     marginTop: 20,
