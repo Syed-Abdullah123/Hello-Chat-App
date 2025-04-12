@@ -4,6 +4,7 @@ import {
   Text,
   TextInput,
   StyleSheet,
+  ScrollView,
   TouchableOpacity,
 } from "react-native";
 // import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -36,7 +37,7 @@ const SignUpScreen = () => {
   //   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.inputContainer}>
         <View style={styles.field}>
           <Text style={styles.label}>Username</Text>
@@ -85,7 +86,7 @@ const SignUpScreen = () => {
         loading={loading}
         style={{ marginTop: 20 }}
       />
-    </View>
+    </ScrollView>
   );
 };
 
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 20,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#E5F5E4",
   },
   inputContainer: {
     paddingTop: 10,
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   input: {
-    backgroundColor: "#fff",
+    backgroundColor: "#ffffff80",
     borderRadius: 25,
     paddingVertical: 12,
     paddingHorizontal: 20,
