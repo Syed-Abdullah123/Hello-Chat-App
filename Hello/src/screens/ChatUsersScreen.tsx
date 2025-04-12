@@ -48,7 +48,7 @@ export default function ChatUsers({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#E5F5E4",
   },
   loadingText: {
     fontSize: 18,
