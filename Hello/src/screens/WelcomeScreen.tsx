@@ -1,172 +1,96 @@
-// import React from "react";
-// import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import React, { useEffect } from "react";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  Animated,
+  StyleSheet,
+} from "react-native";
+import Button from "../components/Button";
 
-// const WelcomeScreen = () => {
-//   const navigation = useNavigation<any>();
+const WelcomeScreen = ({ navigation }) => {
+  const fadeAnim = new Animated.Value(0);
+  const bounceAnim = new Animated.Value(0);
 
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.title}>Welcome to ChatApp</Text>
-//       <Text style={styles.subtitle}>Connect with friends in real-time</Text>
-
-//       <TouchableOpacity
-//         style={styles.button}
-//         onPress={() => navigation.navigate("Signup")}
-//       >
-//         <Text style={styles.buttonText}>Sign Up</Text>
-//       </TouchableOpacity>
-
-//       <TouchableOpacity
-//         style={[styles.button, styles.signInButton]}
-//         onPress={() => navigation.navigate("Signin")}
-//       >
-//         <Text style={styles.buttonText}>Sign In</Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     padding: 20,
-//     backgroundColor: "#f5f5f5",
-//   },
-//   title: {
-//     fontSize: 32,
-//     fontWeight: "bold",
-//     marginBottom: 10,
-//     color: "#333",
-//   },
-//   subtitle: {
-//     fontSize: 18,
-//     color: "#666",
-//     marginBottom: 40,
-//   },
-//   button: {
-//     backgroundColor: "#007AFF",
-//     paddingVertical: 15,
-//     paddingHorizontal: 40,
-//     borderRadius: 8,
-//     marginVertical: 10,
-//     width: "80%",
-//     alignItems: "center",
-//   },
-//   signInButton: {
-//     backgroundColor: "#34C759",
-//   },
-//   buttonText: {
-//     color: "#fff",
-//     fontSize: 18,
-//     fontWeight: "600",
-//   },
-// });
-
-// export default WelcomeScreen;
-
-import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import { CommonActions } from "@react-navigation/native";
-import { useNavigation } from "@react-navigation/native";
-
-export default function SplashScreen() {
-  const navigation = useNavigation<any>();
+  useEffect(() => {
+    Animated.sequence([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
+      Animated.spring(bounceAnim, {
+        toValue: 1,
+        friction: 4,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, []);
 
   return (
     <View style={styles.container}>
-      <Image
-        source={require("../../assets/images/6346.jpg")}
-        style={styles.logo}
-      ></Image>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>Say </Text>
-        <Text style={[styles.title, styles.strokeText]}>Hello </Text>
-        <Text style={styles.title}>to Chatting</Text>
-      </View>
-      <Text style={styles.description}>
-        Connect with friends and family instantly with Hello. Start Chatting
-        now!
-      </Text>
-
-      {/* Button container */}
-      <View style={styles.outerContainer}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("Signup")}
-          style={styles.buttonContainer}
-        >
-          <Text style={styles.text}>Get Started</Text>
-          <Image
-            source={require("../../assets/images/arrow-right.png")}
-            style={{ width: 40, height: 40 }}
+      <Animated.Image
+        source={require("../../assets/Guftaar-logo.jpeg")}
+        style={[styles.image, { opacity: fadeAnim }]}
+      />
+      <Animated.Image
+        source={require("../../assets/images/convo.png")}
+        style={{ width: "100%", height: "60%", opacity: fadeAnim, bottom: 30 }}
+      />
+      <Animated.View style={styles.midContainer}>
+        <Text style={styles.title}>
+          Welcome to Guftaar – your space to connect, chat, and share moments
+          with loved ones.!
+        </Text>
+        {/* <Text style={styles.desc}>Connect, Chat, Celebrate!</Text> */}
+        <Animated.View style={{ transform: [{ scale: bounceAnim }] }}>
+          <Button
+            title="Let's start the conversation"
+            onPress={() => navigation.navigate("AuthTabs")}
+            style={{ width: "100%", marginTop: 20 }}
           />
-        </TouchableOpacity>
-      </View>
+        </Animated.View>
+      </Animated.View>
+      <StatusBar style="auto" backgroundColor="#E5F5E4" />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    gap: 10,
+    backgroundColor: "#E5F5E4",
+    // paddingTop: 25,
   },
-  logo: {
-    width: "100%",
-    height: "47%",
+  image: {
+    width: "50%",
+    height: 150,
+    marginTop: 20,
+    alignSelf: "center",
+    resizeMode: "contain",
   },
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    flexWrap: "wrap",
+  midContainer: {
+    flex: 1,
+    backgroundColor: "#E5F5E4",
     paddingHorizontal: 20,
+    alignSelf: "center",
+    position: "absolute",
+    bottom: 20,
   },
   title: {
-    fontSize: 60,
-    fontWeight: "bold",
-    color: "#84AEBD",
-  },
-  description: {
-    fontSize: 20,
-    textAlign: "center",
+    fontSize: 24,
     color: "#333",
-    paddingHorizontal: 20,
-  },
-  strokeText: {
-    color: "#82d7b3",
-    textShadowColor: "#a7a7a7",
-    fontSize: 80,
-  },
-  outerContainer: {
-    borderWidth: 2,
-    borderRadius: 15,
-    flexDirection: "row",
-    width: "90%",
-    alignSelf: "center",
-    justifyContent: "center",
-    backgroundColor: "#d6d6d6",
-    margin: 10,
-  },
-  buttonContainer: {
-    borderWidth: 2,
-    borderRadius: 15,
-    // padding: 10,
-    flexDirection: "row",
-    width: "98%",
-    alignSelf: "center",
-    bottom: 5,
-    backgroundColor: "white",
-    padding: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 20,
-  },
-  text: {
-    color: "#82d7b3",
     fontWeight: "bold",
+    marginTop: 20,
+  },
+  desc: {
+    fontSize: 16,
+    color: "#666",
     textAlign: "center",
-    fontSize: 22,
+    marginVertical: 10,
   },
 });
+
+export default WelcomeScreen;
