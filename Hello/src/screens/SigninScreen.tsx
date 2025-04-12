@@ -6,7 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
-  Platform,
+  ScrollView,
 } from "react-native";
 import Checkbox from "expo-checkbox";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -34,7 +34,7 @@ const SignInScreen = () => {
   //   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.inputContainer}>
         <View style={styles.field}>
           <Text style={styles.label}>Email</Text>
@@ -67,7 +67,14 @@ const SignInScreen = () => {
             />
             <Text style={styles.rememberText}>Remember Me</Text>
           </View>
-          <TouchableOpacity onPress={() => Alert.alert("Reset Password")}>
+          <TouchableOpacity
+            onPress={() =>
+              Alert.alert(
+                "Reset Password",
+                "Password reset instructions will be sent to your email address."
+              )
+            }
+          >
             <Text style={styles.forgotText}>Forgot Password?</Text>
           </TouchableOpacity>
         </View>
@@ -75,7 +82,7 @@ const SignInScreen = () => {
 
       <Button
         title="Sign In"
-        onPress={() => navigation.navigate("Chat")}
+        onPress={() => navigation.navigate("Users")}
         loading={loading}
         style={{ marginTop: 20 }}
       />
@@ -98,7 +105,7 @@ const SignInScreen = () => {
           <Text style={styles.socialText}>Facebook</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -106,7 +113,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 20,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#E5F5E4",
   },
   inputContainer: {
     paddingTop: 20,
@@ -120,7 +127,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   input: {
-    backgroundColor: "#fff",
+    backgroundColor: "#ffffff80",
     borderRadius: 25,
     paddingVertical: 12,
     paddingHorizontal: 20,
@@ -170,7 +177,7 @@ const styles = StyleSheet.create({
   socialButton: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#eee",
+    backgroundColor: "#ffffff80",
     paddingVertical: 13,
     paddingHorizontal: 20,
     borderRadius: 25,
