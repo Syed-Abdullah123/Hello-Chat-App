@@ -24,7 +24,8 @@ const styles = StyleSheet.create({
     width: "90%",
     alignSelf: "center",
     justifyContent: "center",
-    backgroundColor: "#d6d6d6",
+    backgroundColor: "rgba(229,245,228,0.7)",
+    borderTopWidth: 0,
     margin: 10,
   },
   container: {
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
     width: "98%",
     alignSelf: "center",
     bottom: 5,
-    backgroundColor: "white",
+    backgroundColor: "rgba(229,245,228,0.7)",
   },
   image: {
     width: 60,
