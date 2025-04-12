@@ -33,7 +33,8 @@ const StackNavigator = () => {
           options={{
             headerBackVisible: false,
             headerTitle: "Chatting Room",
-            headerStyle: { backgroundColor: "transparent" },
+            headerTitleStyle: { fontSize: 18 },
+            headerStyle: { backgroundColor: "#E5F5E4" },
             headerShadowVisible: false,
             headerRight: () => {
               return (
@@ -48,11 +49,7 @@ const StackNavigator = () => {
         <Stack.Screen
           name="ChatScreen"
           component={ChatScreen}
-          options={{
-            headerStyle: { backgroundColor: "transparent" },
-            headerShadowVisible: false,
-            headerBackVisible: false,
-          }}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>
