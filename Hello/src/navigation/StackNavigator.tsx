@@ -5,8 +5,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import WelcomeScreen from "../screens/WelcomeScreen";
-// import SignUpScreen from "../screens/SignupScreen";
-// import SignInScreen from "../screens/SigninScreen";
 import ChatUsersScreen from "../screens/ChatUsersScreen";
 import ChatScreen from "../screens/ChatScreen";
 import AuthNavigator from "./AuthNavigator";
