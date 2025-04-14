@@ -20,13 +20,6 @@ const ChatScreen = ({ navigation, route }: any) => {
       <SenderMessageComponent />
 
       <ChatInputComponent />
-      {/* <FlatList
-        data={[]}
-        renderItem={() => (
-          <View>
-          </View>
-        )}
-      /> */}
     </View>
   );
 };
