@@ -1,5 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { View, FlatList, StyleSheet, Text, Pressable } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  View,
+  FlatList,
+  StyleSheet,
+  Text,
+  Pressable,
+  ActivityIndicator,
+  Animated,
+} from "react-native";
 import ChatUserComponent from "../components/ChatUserComponent";
 import dummyUsers from "../dummydata/users";
 
@@ -15,9 +23,23 @@ interface User {
 
 export default function ChatUsers({ navigation }: any) {
   const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    setUsers(dummyUsers);
+    const timeout = setTimeout(() => {
+      setUsers(dummyUsers);
+      setLoading(false);
+
+      // Start fade-in animation when loading is done
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+      }).start();
+    }, 2000);
+
+    return () => clearTimeout(timeout);
   }, []);
 
   const handlePress = (user: User) => {
@@ -26,20 +48,22 @@ export default function ChatUsers({ navigation }: any) {
 
   return (
     <View style={styles.container}>
-      {dummyUsers.length > 0 ? (
-        <FlatList
-          data={dummyUsers}
-          renderItem={({ item }) => (
-            <Pressable onPress={() => handlePress(item)}>
-              <View>
-                <ChatUserComponent user={item} />
-              </View>
-            </Pressable>
-          )}
-          keyExtractor={(item) => item.id}
-        />
+      {loading ? (
+        <ActivityIndicator size="large" color="#333" style={styles.loader} />
       ) : (
-        <Text style={styles.loadingText}>Loading ...</Text>
+        <Animated.View style={{ flex: 1, opacity: fadeAnim }}>
+          <FlatList
+            data={dummyUsers}
+            renderItem={({ item }) => (
+              <Pressable onPress={() => handlePress(item)}>
+                <View>
+                  <ChatUserComponent user={item} />
+                </View>
+              </Pressable>
+            )}
+            keyExtractor={(item) => item.id}
+          />
+        </Animated.View>
       )}
     </View>
   );
@@ -50,9 +74,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#E5F5E4",
   },
-  loadingText: {
-    fontSize: 18,
-    color: "grey",
-    alignSelf: "center",
+  loader: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
