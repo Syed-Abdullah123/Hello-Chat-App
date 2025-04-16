@@ -32,19 +32,18 @@ const WelcomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Animated.Image
-        source={require("../../assets/Guftaar-logo.jpeg")}
+        source={require("../../assets/Guftaar.png")}
         style={[styles.image, { opacity: fadeAnim }]}
       />
       <Animated.Image
         source={require("../../assets/images/convo.png")}
         style={{ width: "100%", height: "60%", opacity: fadeAnim, bottom: 30 }}
       />
-      <Animated.View style={styles.midContainer}>
-        <Text style={styles.title}>
-          Welcome to Guftaar – your space to connect, chat, and share moments
-          with loved ones.!
+      <Animated.View style={[styles.midContainer, { opacity: fadeAnim }]}>
+        <Text style={styles.title}>Welcome to Guftaar</Text>
+        <Text style={styles.desc}>
+          Your space to connect, chat, and share moments with loved ones.!
         </Text>
-        {/* <Text style={styles.desc}>Connect, Chat, Celebrate!</Text> */}
         <Animated.View style={{ transform: [{ scale: bounceAnim }] }}>
           <Button
             title="Let's start the conversation"
@@ -62,12 +61,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#E5F5E4",
-    // paddingTop: 25,
   },
   image: {
     width: "50%",
     height: 150,
-    marginTop: 20,
+    top: 50,
     alignSelf: "center",
     resizeMode: "contain",
   },
@@ -80,7 +78,7 @@ const styles = StyleSheet.create({
     bottom: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 32,
     color: "#333",
     fontWeight: "bold",
     marginTop: 20,
