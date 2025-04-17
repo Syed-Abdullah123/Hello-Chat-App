@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     alignItems: "center",
     justifyContent: "center",
+    elevation: 2,
   },
   buttonDisabled: {
     opacity: 0.6,
