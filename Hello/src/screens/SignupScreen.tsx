@@ -11,9 +11,14 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 
-import { FIREBASE_AUTH, FIREBASE_STORAGE } from "../firebase/config";
+import {
+  FIREBASE_AUTH,
+  FIREBASE_STORAGE,
+  FIREBASE_DB,
+} from "../firebase/config";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 import { useNavigation } from "@react-navigation/native";
 import Button from "../components/Button";
@@ -92,6 +97,16 @@ const SignUpScreen = () => {
         photoURL,
       });
 
+      await setDoc(doc(FIREBASE_DB, "users", user.uid), {
+        id: user.uid,
+        name: username,
+        email: user.email,
+        image: photoURL,
+        title: "New user",
+        message: "Hey there! I’m using the app.",
+        timestamp: new Date().toISOString(),
+      });
+
       Alert.alert("Success", "Account created!");
       navigation.navigate("Signin");
     } catch (error) {
@@ -155,8 +170,9 @@ const SignUpScreen = () => {
 
       <Button
         title="Sign Up"
-        onPress={() => navigation.navigate("Signin")}
+        onPress={handleSignUp}
         loading={loading}
+        loadingText="Creating account..."
         style={{ marginTop: 20 }}
       />
     </ScrollView>
