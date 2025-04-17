@@ -2,13 +2,19 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
+  Alert,
+  Image,
   TextInput,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-// import { createUserWithEmailAndPassword } from 'firebase/auth';
-// import { FIREBASE_AUTH } from '../firebase/config';
+import * as ImagePicker from "expo-image-picker";
+
+import { FIREBASE_AUTH, FIREBASE_STORAGE } from "../firebase/config";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+
 import { useNavigation } from "@react-navigation/native";
 import Button from "../components/Button";
 
@@ -17,27 +23,94 @@ const SignUpScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<any>();
 
-  //   const handleSignUp = async () => {
-  //     if (password !== confirmPassword) {
-  //       Alert.alert('Error', 'Passwords do not match');
-  //       return;
-  //     }
+  const pickImage = async () => {
+    // Ask for media library permissions
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-  //     setLoading(true);
-  //     try {
-  //       await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password);
-  //       navigation.navigate('SignIn');
-  //     } catch (error: any) {
-  //       Alert.alert('Error', error.message);
-  //     }
-  //     setLoading(false);
-  //   };
+    if (status !== "granted") {
+      Alert.alert(
+        "Permission Required",
+        "We need access to your gallery to let you upload a profile picture.",
+        [{ text: "OK" }]
+      );
+      return;
+    }
+
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images, // Updated!
+        allowsEditing: true,
+        quality: 0.5,
+        aspect: [1, 1],
+      });
+
+      if (!result.canceled && result.assets && result.assets.length > 0) {
+        setImage(result.assets[0].uri);
+      }
+    } catch (err) {
+      Alert.alert("Oops!", "Something went wrong while picking the image.");
+      console.error("Image Picker Error:", err);
+    }
+  };
+
+  const uploadImageAsync = async (uri, userId) => {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    const imageRef = ref(FIREBASE_STORAGE, `profileImages/${userId}`);
+    await uploadBytes(imageRef, blob);
+    return await getDownloadURL(imageRef);
+  };
+
+  const handleSignUp = async () => {
+    if (!username || !email || !password || !confirmPassword) {
+      return Alert.alert("Error", "Please fill in all fields.");
+    }
+    if (password !== confirmPassword) {
+      return Alert.alert("Error", "Passwords do not match.");
+    }
+
+    try {
+      setLoading(true);
+      const { user } = await createUserWithEmailAndPassword(
+        FIREBASE_AUTH,
+        email,
+        password
+      );
+
+      let photoURL = null;
+
+      if (image) {
+        photoURL = await uploadImageAsync(image, user.uid);
+      }
+
+      await updateProfile(user, {
+        displayName: username,
+        photoURL,
+      });
+
+      Alert.alert("Success", "Account created!");
+      navigation.navigate("Signin");
+    } catch (error) {
+      Alert.alert("Signup Error", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <TouchableOpacity style={styles.avatarPlaceholder} onPress={pickImage}>
+        {image ? (
+          <Image source={{ uri: image }} style={styles.avatarImage} />
+        ) : (
+          <Text style={{ color: "#999", fontSize: 12 }}>Pick Image</Text>
+        )}
+      </TouchableOpacity>
+
       <View style={styles.inputContainer}>
         <View style={styles.field}>
           <Text style={styles.label}>Username</Text>
@@ -96,9 +169,21 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     backgroundColor: "#E5F5E4",
   },
-  inputContainer: {
-    paddingTop: 10,
+  avatarPlaceholder: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: "#ccc",
+    alignSelf: "flex-end",
+    justifyContent: "center",
+    alignItems: "center",
   },
+  avatarImage: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 25,
+  },
+  inputContainer: {},
   field: {
     marginBottom: 14,
   },
