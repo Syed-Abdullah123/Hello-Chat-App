@@ -10,8 +10,10 @@ import {
 } from "react-native";
 import Checkbox from "expo-checkbox";
 import { FontAwesome5 } from "@expo/vector-icons";
-// import { signInWithEmailAndPassword } from 'firebase/auth';
-// import { FIREBASE_AUTH } from '../firebase/config';
+
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { FIREBASE_AUTH } from "../firebase/config";
+
 import { useNavigation } from "@react-navigation/native";
 import Button from "../components/Button";
 
@@ -22,16 +24,31 @@ const SignInScreen = () => {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<any>();
 
-  //   const handleSignIn = async () => {
-  //     setLoading(true);
-  //     try {
-  //       await signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
-  //       // You can navigate to your chat screen here after successful login
-  //     } catch (error: any) {
-  //       Alert.alert('Error', error.message);
-  //     }
-  //     setLoading(false);
-  //   };
+  const handleSignIn = async () => {
+    if (!email || !password) {
+      Alert.alert("Missing Fields", "Please enter both email and password.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      await signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
+      navigation.navigate("Users");
+    } catch (error: any) {
+      let message = "Something went wrong. Please try again.";
+      if (error.code === "auth/invalid-email") {
+        message = "The email address is badly formatted.";
+      } else if (error.code === "auth/user-not-found") {
+        message = "No user found with this email.";
+      } else if (error.code === "auth/wrong-password") {
+        message = "Incorrect password.";
+      }
+      Alert.alert("Login Error", message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -82,8 +99,9 @@ const SignInScreen = () => {
 
       <Button
         title="Sign In"
-        onPress={() => navigation.navigate("Users")}
+        onPress={handleSignIn}
         loading={loading}
+        loadingText="Signing in..."
         style={{ marginTop: 20 }}
       />
 
