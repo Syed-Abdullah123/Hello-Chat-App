@@ -118,13 +118,16 @@ const SignUpScreen = () => {
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <TouchableOpacity style={styles.avatarPlaceholder} onPress={pickImage}>
-        {image ? (
-          <Image source={{ uri: image }} style={styles.avatarImage} />
-        ) : (
-          <Text style={{ color: "#999", fontSize: 12 }}>Pick Image</Text>
-        )}
-      </TouchableOpacity>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Make sure to upload your image</Text>
+        <TouchableOpacity style={styles.avatarPlaceholder} onPress={pickImage}>
+          {image ? (
+            <Image source={{ uri: image }} style={styles.avatarImage} />
+          ) : (
+            <Text style={styles.avatarPlaceholderText}>Pick Image</Text>
+          )}
+        </TouchableOpacity>
+      </View>
 
       <View style={styles.inputContainer}>
         <View style={styles.field}>
@@ -185,6 +188,16 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     backgroundColor: "#E5F5E4",
   },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  headerText: {
+    fontSize: 12,
+    color: "#007AFF",
+    textDecorationLine: "underline",
+  },
   avatarPlaceholder: {
     width: 50,
     height: 50,
@@ -198,6 +211,11 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     borderRadius: 25,
+  },
+  avatarPlaceholderText: {
+    color: "#999",
+    fontSize: 12,
+    textAlign: "center",
   },
   inputContainer: {},
   field: {
