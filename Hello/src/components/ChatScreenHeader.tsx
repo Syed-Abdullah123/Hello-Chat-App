@@ -13,7 +13,7 @@ export function ChattingScreenHeaderComponent({ route, navigation }: any) {
         >
           <AntDesign name="arrowleft" size={24} />
         </TouchableOpacity>
-        <Image source={user.image} style={styles.image} />
+        <Image source={{ uri: user.image }} style={styles.image} />
         <View>
           <Text style={styles.headerText}>{user.name}</Text>
           <Text style={styles.headerText1}>Online</Text>
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
   headerLeft: {
     flexDirection: "row",
-    gap: 10,
+    // gap: 10,
     padding: 10,
     alignSelf: "center",
   },
@@ -68,5 +68,6 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     alignSelf: "center",
     left: 10,
+    marginRight: 10,
   },
 });
