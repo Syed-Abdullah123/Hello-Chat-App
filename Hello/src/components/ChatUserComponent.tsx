@@ -5,12 +5,16 @@ export default function ChatUserComponent({ user }) {
   return (
     <View style={styles.outerContainer}>
       <View style={styles.container}>
-        <Image source={user.image} style={styles.image}></Image>
+        <Image
+          style={styles.image}
+          source={{ uri: user.image }}
+          defaultSource={require("../../assets/favicon.png")}
+        ></Image>
         <View style={styles.midContainer}>
           <Text style={styles.username}>{user.name}</Text>
           <Text style={styles.message}>{user.message}</Text>
         </View>
-        <Text style={styles.timestamp}>{user.timestamp}</Text>
+        <Text style={styles.timestamp}>{user.timestamp.slice(0, 10)}</Text>
       </View>
     </View>
   );
