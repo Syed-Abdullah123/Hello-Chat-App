@@ -11,6 +11,9 @@ import {
 import ChatUserComponent from "../components/ChatUserComponent";
 import dummyUsers from "../dummydata/users";
 
+import { collection, getDocs } from "firebase/firestore";
+import { FIREBASE_DB } from "../firebase/config";
+
 interface User {
   id: string;
   name: string;
@@ -27,19 +30,24 @@ export default function ChatUsers({ navigation }: any) {
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setUsers(dummyUsers);
-      setLoading(false);
+    const fetchUsers = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(FIREBASE_DB, "users"));
+        const usersData = querySnapshot.docs.map((doc) => doc.data());
+        setUsers(usersData);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      } finally {
+        setLoading(false);
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }).start();
+      }
+    };
 
-      // Start fade-in animation when loading is done
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 1000,
-        useNativeDriver: true,
-      }).start();
-    }, 2000);
-
-    return () => clearTimeout(timeout);
+    fetchUsers();
   }, []);
 
   const handlePress = (user: User) => {
@@ -53,7 +61,7 @@ export default function ChatUsers({ navigation }: any) {
       ) : (
         <Animated.View style={{ flex: 1, opacity: fadeAnim }}>
           <FlatList
-            data={dummyUsers}
+            data={users}
             renderItem={({ item }) => (
               <Pressable onPress={() => handlePress(item)}>
                 <View>
