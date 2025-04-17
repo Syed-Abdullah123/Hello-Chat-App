@@ -11,6 +11,7 @@ interface ButtonProps {
   title: string;
   onPress: () => void;
   loading?: boolean;
+  loadingText?: string;
   disabled?: boolean;
   style?: object;
   textStyle?: object;
@@ -20,6 +21,7 @@ const Button = ({
   title,
   onPress,
   loading = false,
+  loadingText = "Loading...",
   disabled = false,
   style = {},
   textStyle = {},
@@ -42,9 +44,7 @@ const Button = ({
             size="small"
             style={{ marginRight: 8 }}
           />
-          <Text style={[styles.buttonText, textStyle]}>
-            Creating Account...
-          </Text>
+          <Text style={[styles.buttonText, textStyle]}>{loadingText}</Text>
         </View>
       ) : (
         <Text style={[styles.buttonText, textStyle]}>{title}</Text>
