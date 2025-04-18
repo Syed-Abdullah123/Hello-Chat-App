@@ -8,7 +8,7 @@ export default function ChatUserComponent({ user }) {
         <Image
           style={styles.image}
           source={{ uri: user.image }}
-          defaultSource={require("../../assets/favicon.png")}
+          defaultSource={require("../../assets/images/default.png")}
         ></Image>
         <View style={styles.midContainer}>
           <Text style={styles.username}>{user.name}</Text>
