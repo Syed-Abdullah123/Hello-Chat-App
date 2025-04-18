@@ -28,6 +28,23 @@ const ChatScreen = ({ navigation, route }: any) => {
     };
   }, []);
 
+  useEffect(() => {
+    console.log("Connecting to socket...");
+
+    socket.on("connect", () => {
+      console.log("✅ Connected to socket server!", socket.id);
+    });
+
+    socket.on("connect_error", (err) => {
+      console.log("❌ Connection error:", err.message);
+    });
+
+    return () => {
+      socket.off("receive_message");
+      socket.off("connect");
+    };
+  }, []);
+
   const sendMessage = (message) => {
     const msgData = {
       sender: user.name,
@@ -35,7 +52,7 @@ const ChatScreen = ({ navigation, route }: any) => {
       message,
     };
     socket.emit("send_message", msgData);
-    setMessages((prev) => [...prev, msgData]); // show immediately
+    // setMessages((prev) => [...prev, msgData]); // show immediately
   };
 
   return (
@@ -53,9 +70,9 @@ const ChatScreen = ({ navigation, route }: any) => {
               <ReceiverMessageComponent item={item} />
             )
           }
+          inverted
         />
       </View>
-      <SenderMessageComponent />
 
       <ChatInputComponent onSend={sendMessage} />
     </View>
