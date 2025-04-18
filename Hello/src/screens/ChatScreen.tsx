@@ -52,7 +52,6 @@ const ChatScreen = ({ navigation, route }: any) => {
       message,
     };
     socket.emit("send_message", msgData);
-    // setMessages((prev) => [...prev, msgData]); // show immediately
   };
 
   return (
