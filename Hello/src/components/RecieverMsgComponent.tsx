@@ -1,16 +1,13 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 
-export default function ReceiverMessageComponent() {
+export default function ReceiverMessageComponent({ item }) {
   return (
     <>
       <View style={{ flexDirection: "row" }}>
-        <Image
-          source={require("../../assets/images/ME.jpg")}
-          style={styles.userImage}
-        />
+        <Image source={{ uri: item.image }} style={styles.userImage} />
         <View>
-          <Text style={styles.userName}>Abdullah</Text>
+          <Text style={styles.userName}>{item.name}</Text>
           <View style={styles.container}>
             <Text>Really why can't it be?</Text>
           </View>
