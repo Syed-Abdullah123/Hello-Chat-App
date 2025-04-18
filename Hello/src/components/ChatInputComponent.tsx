@@ -1,26 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
   TextInput,
   Image,
   KeyboardAvoidingView,
+  TouchableOpacity,
 } from "react-native";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 
-export default function ChatInputComponent() {
+export default function ChatInputComponent({ onSend }) {
+  const [text, setText] = useState("");
+
+  const handleSend = () => {
+    if (text.trim()) {
+      onSend(text);
+      setText("");
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
         <AntDesign name="smileo" size={24} />
         <View>
-          <TextInput placeholder="Type a message..." style={styles.input} />
+          <TextInput
+            value={text}
+            placeholder="Type a message..."
+            style={styles.input}
+            onChangeText={setText}
+          />
         </View>
         <AntDesign name="camerao" size={24} />
         <AntDesign name="addfile" size={24} />
-        <View style={styles.micView}>
-          <FontAwesome name="microphone" size={20} />
-        </View>
+        <TouchableOpacity onPress={handleSend} style={styles.micView}>
+          <FontAwesome name="send" size={20} />
+        </TouchableOpacity>
       </View>
     </View>
   );
