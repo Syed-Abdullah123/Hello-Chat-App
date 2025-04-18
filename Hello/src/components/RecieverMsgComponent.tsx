@@ -7,9 +7,9 @@ export default function ReceiverMessageComponent({ item }) {
       <View style={{ flexDirection: "row" }}>
         <Image source={{ uri: item.image }} style={styles.userImage} />
         <View>
-          <Text style={styles.userName}>{item.name}</Text>
+          <Text style={styles.userName}>{item.sender}</Text>
           <View style={styles.container}>
-            <Text>Really why can't it be?</Text>
+            <Text>{item.message}</Text>
           </View>
         </View>
       </View>
