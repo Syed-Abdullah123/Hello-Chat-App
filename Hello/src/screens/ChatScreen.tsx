@@ -12,11 +12,11 @@ const ChatScreen = ({ navigation, route }: any) => {
     <View style={styles.container}>
       <ChattingScreenHeaderComponent navigation={navigation} route={route} />
       <SenderMessageComponent />
-      <ReceiverMessageComponent />
+      <ReceiverMessageComponent item={user} />
       <SenderMessageComponent />
-      <ReceiverMessageComponent />
+      <ReceiverMessageComponent item={user} />
       <SenderMessageComponent />
-      <ReceiverMessageComponent />
+      <ReceiverMessageComponent item={user} />
       <SenderMessageComponent />
 
       <ChatInputComponent />
