@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-export default function SenderMessageComponent() {
+export default function SenderMessageComponent({ item }) {
   return (
     <View style={styles.container}>
-      <Text>I don't think I can join later in the afternoon</Text>
+      <Text>{item.message}</Text>
     </View>
   );
 }
