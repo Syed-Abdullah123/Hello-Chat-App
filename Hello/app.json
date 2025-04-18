@@ -19,10 +19,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/Guftaar-logo.jpeg",
         "backgroundColor": "#E5F5E4"
-      }
+      },
+      "package": "com.abc_123_a.Guftaar"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ce475305-1138-4c85-ae06-d07fede13ebb"
+      }
     }
   }
 }
