@@ -14,7 +14,7 @@ const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{ animation: "slide_from_right" }}>
         <Stack.Screen
           name="Welcome"
           component={WelcomeScreen}
