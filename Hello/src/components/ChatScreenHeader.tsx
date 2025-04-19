@@ -2,8 +2,12 @@ import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 
-export function ChattingScreenHeaderComponent({ route, navigation }: any) {
-  const user = route.params?.user || {};
+export function ChattingScreenHeaderComponent({
+  route,
+  navigation,
+  isOnline,
+}: any) {
+  const { user } = route.params;
   return (
     <View style={styles.container}>
       <View style={styles.headerLeft}>
@@ -16,7 +20,26 @@ export function ChattingScreenHeaderComponent({ route, navigation }: any) {
         <Image source={{ uri: user.image }} style={styles.image} />
         <View>
           <Text style={styles.headerText}>{user.name}</Text>
-          <Text style={styles.headerText1}>Online</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              gap: 5,
+              paddingLeft: 10,
+            }}
+          >
+            <View
+              style={{
+                width: 10,
+                height: 10,
+                borderRadius: 5,
+                bottom: 2,
+                backgroundColor: isOnline ? "#00c851" : "#ff4444",
+              }}
+            />
+            <Text style={styles.headerText1}>
+              {isOnline ? "Online" : "Offline"}
+            </Text>
+          </View>
         </View>
       </View>
       <View style={styles.headerIcons}>
@@ -51,9 +74,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   headerText1: {
-    color: "green",
+    color: "#666",
     fontSize: 12,
-    paddingLeft: 10,
     bottom: 5,
   },
   headerIcons: {
