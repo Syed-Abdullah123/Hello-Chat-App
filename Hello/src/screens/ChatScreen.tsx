@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  View,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import socket from "../utils/socket";
 
 import SenderMessageComponent from "../components/SenderMsgComponent";
@@ -17,10 +23,11 @@ interface Message {
 const ChatScreen = ({ navigation, route }: any) => {
   const { user } = route.params;
   const [messages, setMessages] = useState<Message[]>([]);
+  const [isOnline, setIsOnline] = useState(false);
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
-      setMessages((prev) => [...prev, data]);
+      setMessages((prev) => [data, ...prev]);
     });
 
     return () => {
@@ -30,18 +37,22 @@ const ChatScreen = ({ navigation, route }: any) => {
 
   useEffect(() => {
     console.log("Connecting to socket...");
+    socket.connect();
 
     socket.on("connect", () => {
       console.log("✅ Connected to socket server!", socket.id);
+      setIsOnline(true); // online
     });
 
-    socket.on("connect_error", (err) => {
-      console.log("❌ Connection error:", err.message);
+    socket.on("disconnect", () => {
+      console.log("🔴 Disconnected from socket server.");
+      setIsOnline(false); // offline
     });
 
     return () => {
-      socket.off("receive_message");
+      socket.disconnect();
       socket.off("connect");
+      socket.off("disconnect");
     };
   }, []);
 
@@ -55,10 +66,18 @@ const ChatScreen = ({ navigation, route }: any) => {
   };
 
   return (
-    <View style={styles.container}>
-      <ChattingScreenHeaderComponent navigation={navigation} route={route} />
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
+    >
+      <ChattingScreenHeaderComponent
+        navigation={navigation}
+        route={route}
+        isOnline={isOnline}
+      />
 
-      <View>
+      <View style={styles.chatArea}>
         <FlatList
           data={messages}
           keyExtractor={(_, index) => index.toString()}
@@ -70,11 +89,12 @@ const ChatScreen = ({ navigation, route }: any) => {
             )
           }
           inverted
+          contentContainerStyle={{ paddingBottom: 10 }}
         />
       </View>
 
       <ChatInputComponent onSend={sendMessage} />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -86,5 +106,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#E5F5E4",
     paddingTop: 25,
     paddingHorizontal: 10,
+  },
+  chatArea: {
+    flex: 1,
   },
 });
