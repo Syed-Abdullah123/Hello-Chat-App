@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     alignItems: "center",
     justifyContent: "center",
-    width: 230,
+    maxWidth: "70%",
     height: "auto",
     padding: 15,
     backgroundColor: "#e3f6a8",
@@ -22,5 +22,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderBottomEndRadius: 0,
     marginTop: 10,
+    marginRight: 5,
   },
 });
