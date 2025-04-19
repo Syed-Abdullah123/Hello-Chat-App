@@ -3,9 +3,9 @@ import {
   View,
   StyleSheet,
   TextInput,
-  Image,
-  KeyboardAvoidingView,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 
@@ -20,64 +20,69 @@ export default function ChatInputComponent({ onSend }) {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      keyboardVerticalOffset={80}
+      style={styles.wrapper}
+    >
       <View style={styles.inputContainer}>
-        <AntDesign name="smileo" size={24} />
-        <View>
-          <TextInput
-            value={text}
-            placeholder="Type a message..."
-            style={styles.input}
-            onChangeText={setText}
-          />
-        </View>
-        <AntDesign name="camerao" size={24} />
-        <AntDesign name="addfile" size={24} />
-        <TouchableOpacity onPress={handleSend} style={styles.micView}>
+        <AntDesign name="plus" size={20} style={styles.icon} />
+
+        <TextInput
+          value={text}
+          placeholder="Type a message..."
+          style={styles.input}
+          onChangeText={setText}
+          multiline
+        />
+
+        {/* <AntDesign name="camerao" size={24} style={styles.icon} />
+        <AntDesign name="addfile" size={24} style={styles.icon} /> */}
+
+        <TouchableOpacity onPress={handleSend} style={styles.sendButton}>
           <FontAwesome name="send" size={20} />
         </TouchableOpacity>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    position: "absolute",
-    bottom: 15,
-    alignSelf: "center",
+  wrapper: {
+    paddingBottom: Platform.OS === "ios" ? 10 : 15,
+    paddingHorizontal: 10,
+    backgroundColor: "#E5F5E4",
+    paddingTop: 10,
   },
   inputContainer: {
     flexDirection: "row",
-    width: "100%",
-    height: 70,
-    borderWidth: 2,
-    borderRadius: 25,
-    borderColor: "black",
-    padding: 10,
     alignItems: "center",
-    backgroundColor: "#ffffff80",
-    paddingHorizontal: 20,
-    justifyContent: "space-between",
+    borderRadius: 25,
+    borderWidth: 2,
+    borderColor: "#000",
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    backgroundColor: "#fefef9",
+  },
+  icon: {
+    marginHorizontal: 5,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 20,
+    padding: 4,
   },
   input: {
     flex: 1,
-    height: 40,
-    marginRight: 10,
+    minHeight: 40,
+    paddingHorizontal: 10,
+    fontSize: 16,
   },
-  image: {
-    width: 30,
-    height: 30,
-  },
-  micView: {
-    width: 40,
-    height: 40,
+  sendButton: {
+    marginLeft: 6,
+    padding: 8,
     borderRadius: 20,
     backgroundColor: "#fff",
-    justifyContent: "center",
-    alignItems: "center",
     borderWidth: 1,
-    marginLeft: 9,
+    borderColor: "#ccc",
   },
 });
