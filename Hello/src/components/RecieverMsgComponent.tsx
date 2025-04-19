@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Image } from "react-native";
 export default function ReceiverMessageComponent({ item }) {
   return (
     <>
-      <View style={{ flexDirection: "row" }}>
+      <View style={styles.recvContainer}>
         <Image source={{ uri: item.image }} style={styles.userImage} />
         <View>
           <Text style={styles.userName}>{item.sender}</Text>
@@ -18,10 +18,14 @@ export default function ReceiverMessageComponent({ item }) {
 }
 
 const styles = StyleSheet.create({
+  recvContainer: {
+    flexDirection: "row",
+    marginTop: 10,
+  },
   container: {
     left: 10,
     alignSelf: "flex-start",
-    width: 230,
+    maxWidth: 230,
     height: "auto",
     padding: 15,
     borderRadius: 30,
