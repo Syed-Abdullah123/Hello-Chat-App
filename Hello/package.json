@@ -16,9 +16,13 @@
     "@react-navigation/native": "^7.1.6",
     "@react-navigation/native-stack": "^7.3.10",
     "expo": "~52.0.43",
+    "expo-camera": "~16.0.18",
     "expo-checkbox": "~4.0.1",
+    "expo-dev-client": "~5.0.20",
     "expo-font": "^13.0.4",
     "expo-image-picker": "~16.0.6",
+    "expo-media-library": "~17.0.6",
+    "expo-permissions": "^14.4.0",
     "expo-status-bar": "~2.0.1",
     "firebase": "^11.6.0",
     "react": "18.3.1",
@@ -27,8 +31,8 @@
     "react-native-safe-area-context": "4.12.0",
     "react-native-screens": "~4.4.0",
     "react-native-tab-view": "^4.0.10",
-    "socket.io-client": "^4.8.1",
-    "expo-dev-client": "~5.0.20"
+    "react-native-webrtc": "^124.0.5",
+    "socket.io-client": "^4.8.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
