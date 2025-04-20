@@ -22,6 +22,9 @@
       },
       "package": "com.abc_123_a.Guftaar"
     },
+    "plugins": [
+      "@config-plugins/react-native-webrtc"
+    ],
     "web": {
       "favicon": "./assets/favicon.png"
     },
