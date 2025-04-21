@@ -8,6 +8,7 @@ import WelcomeScreen from "../screens/WelcomeScreen";
 import ChatUsersScreen from "../screens/ChatUsersScreen";
 import ChatScreen from "../screens/ChatScreen";
 import AuthNavigator from "./AuthNavigator";
+import CallScreen from "../screens/CallScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -47,6 +48,11 @@ const StackNavigator = () => {
         <Stack.Screen
           name="ChatScreen"
           component={ChatScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Call"
+          component={CallScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
