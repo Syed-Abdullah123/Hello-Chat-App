@@ -26,6 +26,18 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log(`❌ User disconnected: ${socket.id}`);
   });
+  
+  socket.on("webrtc_offer", ({ to, sdp }) => {
+    socket.to(to).emit("webrtc_offer", { sdp });
+  });
+  
+  socket.on("webrtc_answer", ({ to, sdp }) => {
+    socket.to(to).emit("webrtc_answer", { sdp });
+  });
+  
+  socket.on("ice_candidate", ({ to, candidate }) => {
+    socket.to(to).emit("ice_candidate", { candidate });
+  });
 });
 
 const PORT = process.env.PORT || 3000;
