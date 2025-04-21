@@ -43,12 +43,30 @@ export function ChattingScreenHeaderComponent({
         </View>
       </View>
       <View style={styles.headerIcons}>
-        <AntDesign name="phone" size={24} />
-        <AntDesign name="videocamera" size={24} />
-        <MaterialCommunityIcons
-          name="dots-horizontal-circle-outline"
-          size={24}
-        />
+        <TouchableOpacity
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          onPress={() =>
+            navigation.navigate("Call", {
+              user,
+              callType: "audio",
+              isVideoCall: false,
+            })
+          }
+        >
+          <AntDesign name="phone" size={24} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          onPress={() =>
+            navigation.navigate("Call", {
+              user,
+              callType: "video",
+              isVideoCall: true,
+            })
+          }
+        >
+          <AntDesign name="videocamera" size={24} />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -80,7 +98,7 @@ const styles = StyleSheet.create({
   },
   headerIcons: {
     flexDirection: "row",
-    gap: 10,
+    gap: 20,
     padding: 10,
     alignSelf: "center",
   },
