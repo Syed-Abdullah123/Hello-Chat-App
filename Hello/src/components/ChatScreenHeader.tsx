@@ -12,7 +12,7 @@ export function ChattingScreenHeaderComponent({
     <View style={styles.container}>
       <View style={styles.headerLeft}>
         <TouchableOpacity
-          style={{ alignSelf: "center" }}
+          style={styles.backArrow}
           onPress={() => navigation.goBack()}
         >
           <AntDesign name="arrowleft" size={24} />
@@ -20,21 +20,12 @@ export function ChattingScreenHeaderComponent({
         <Image source={{ uri: user.image }} style={styles.image} />
         <View>
           <Text style={styles.headerText}>{user.name}</Text>
-          <View
-            style={{
-              flexDirection: "row",
-              gap: 5,
-              paddingLeft: 10,
-            }}
-          >
+          <View style={styles.statusContainer}>
             <View
-              style={{
-                width: 10,
-                height: 10,
-                borderRadius: 5,
-                bottom: 2,
-                backgroundColor: isOnline ? "#00c851" : "#ff4444",
-              }}
+              style={[
+                styles.status,
+                { backgroundColor: isOnline ? "#00c851" : "#ff4444" },
+              ]}
             />
             <Text style={styles.headerText1}>
               {isOnline ? "Online" : "Offline"}
@@ -44,7 +35,7 @@ export function ChattingScreenHeaderComponent({
       </View>
       <View style={styles.headerIcons}>
         <TouchableOpacity
-          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          hitSlop={styles.hitSlop}
           onPress={() =>
             navigation.navigate("Call", {
               user,
@@ -56,7 +47,7 @@ export function ChattingScreenHeaderComponent({
           <AntDesign name="phone" size={24} />
         </TouchableOpacity>
         <TouchableOpacity
-          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          hitSlop={styles.hitSlop}
           onPress={() =>
             navigation.navigate("Call", {
               user,
@@ -85,6 +76,20 @@ const styles = StyleSheet.create({
     padding: 10,
     alignSelf: "center",
   },
+  backArrow: {
+    alignSelf: "center",
+  },
+  statusContainer: {
+    flexDirection: "row",
+    gap: 5,
+    paddingLeft: 10,
+  },
+  status: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    bottom: 2,
+  },
   headerText: {
     fontWeight: "600",
     fontSize: 16,
@@ -101,6 +106,12 @@ const styles = StyleSheet.create({
     gap: 20,
     padding: 10,
     alignSelf: "center",
+  },
+  hitSlop: {
+    top: 10,
+    bottom: 10,
+    left: 10,
+    right: 10,
   },
   image: {
     width: 40,
