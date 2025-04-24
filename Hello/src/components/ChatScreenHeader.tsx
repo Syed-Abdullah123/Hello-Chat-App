@@ -10,10 +10,8 @@ export function ChattingScreenHeaderComponent({
   const { user } = route.params;
 
   const initiateCallHandler = (callType) => {
-    // Import initiateCall from socket
     const { initiateCall } = require("../utils/socket");
 
-    // Get current user info
     const currentUser = {
       // Replace with your actual current user data
       id: user.id,
@@ -24,7 +22,6 @@ export function ChattingScreenHeaderComponent({
     // Notify receiver about call
     initiateCall(user.id, callType, currentUser);
 
-    // Navigate to call screen
     navigation.navigate("Call", {
       user,
       callType: callType,
