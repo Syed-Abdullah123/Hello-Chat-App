@@ -1,36 +1,102 @@
-import { StyleSheet, Text, View, Button } from "react-native";
 import React from "react";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { acceptCall, rejectCall } from "../utils/socket";
 
 const IncomingCallScreen = ({ route, navigation }) => {
-  const { fromUserId, callType, isVideoCall } = route.params;
+  const { caller, callType } = route.params;
 
   const handleAccept = () => {
+    acceptCall(caller.id);
     navigation.replace("Call", {
-      user: { id: fromUserId }, // Add other user details if needed
-      callType,
-      isVideoCall,
+      user: caller,
+      callType: callType,
+      isVideoCall: callType === "video",
+      isIncoming: true,
     });
   };
 
   const handleReject = () => {
-    navigation.goBack(); // or show a rejection message
+    rejectCall(caller.id);
+    navigation.goBack();
   };
 
   return (
     <View style={styles.container}>
-      <Text>Incoming {callType} call...</Text>
-      <Button title="Accept" onPress={handleAccept} />
-      <Button title="Reject" onPress={handleReject} />
+      <View style={styles.callerInfoContainer}>
+        <Image source={{ uri: caller.image }} style={styles.callerImage} />
+        <Text style={styles.callerName}>{caller.name}</Text>
+        <Text style={styles.callTypeText}>
+          {callType === "video" ? "Video Call" : "Audio Call"}
+        </Text>
+      </View>
+
+      <View style={styles.actionsContainer}>
+        <TouchableOpacity
+          style={[styles.actionButton, styles.rejectButton]}
+          onPress={handleReject}
+        >
+          <Ionicons name="call" size={30} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.actionButton, styles.acceptButton]}
+          onPress={handleAccept}
+        >
+          <Ionicons name="call" size={30} color="white" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
-export default IncomingCallScreen;
-
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    justifyContent: "space-between",
+    backgroundColor: "#121212",
+    padding: 20,
+  },
+  callerInfoContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
+  callerImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginBottom: 20,
+  },
+  callerName: {
+    fontSize: 26,
+    fontWeight: "bold",
+    color: "white",
+    marginBottom: 10,
+  },
+  callTypeText: {
+    fontSize: 18,
+    color: "#999",
+  },
+  actionsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    paddingBottom: 40,
+  },
+  actionButton: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  acceptButton: {
+    backgroundColor: "#4CAF50",
+    transform: [{ rotate: "90deg" }],
+  },
+  rejectButton: {
+    backgroundColor: "#F44336",
+    transform: [{ rotate: "225deg" }],
+  },
 });
+
+export default IncomingCallScreen;
