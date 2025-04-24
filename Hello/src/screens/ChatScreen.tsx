@@ -56,6 +56,24 @@ const ChatScreen = ({ navigation, route }: any) => {
     };
   }, []);
 
+  useEffect(() => {
+    // Listen for incoming calls
+    const incomingCallHandler = ({ callType, caller }) => {
+      console.log("Incoming call received", caller, callType);
+      // Navigate to incoming call screen
+      navigation.navigate("IncomingCall", {
+        caller,
+        callType,
+      });
+    };
+
+    socket.on("incoming_call", incomingCallHandler);
+
+    return () => {
+      socket.off("incoming_call", incomingCallHandler);
+    };
+  }, [navigation]);
+
   const sendMessage = (message) => {
     const msgData = {
       sender: user.name,
