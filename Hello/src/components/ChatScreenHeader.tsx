@@ -8,6 +8,31 @@ export function ChattingScreenHeaderComponent({
   isOnline,
 }: any) {
   const { user } = route.params;
+
+  const initiateCallHandler = (callType) => {
+    // Import initiateCall from socket
+    const { initiateCall } = require("../utils/socket");
+
+    // Get current user info
+    const currentUser = {
+      // Replace with your actual current user data
+      id: user.id,
+      name: user.name,
+      image: user.image,
+    };
+
+    // Notify receiver about call
+    initiateCall(user.id, callType, currentUser);
+
+    // Navigate to call screen
+    navigation.navigate("Call", {
+      user,
+      callType: callType,
+      isVideoCall: callType === "video",
+      isIncoming: false,
+    });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.headerLeft}>
@@ -36,25 +61,13 @@ export function ChattingScreenHeaderComponent({
       <View style={styles.headerIcons}>
         <TouchableOpacity
           hitSlop={styles.hitSlop}
-          onPress={() =>
-            navigation.navigate("Call", {
-              user,
-              callType: "audio",
-              isVideoCall: false,
-            })
-          }
+          onPress={() => initiateCallHandler("audio")}
         >
           <AntDesign name="phone" size={24} />
         </TouchableOpacity>
         <TouchableOpacity
           hitSlop={styles.hitSlop}
-          onPress={() =>
-            navigation.navigate("Call", {
-              user,
-              callType: "video",
-              isVideoCall: true,
-            })
-          }
+          onPress={() => initiateCallHandler("video")}
         >
           <AntDesign name="videocamera" size={24} />
         </TouchableOpacity>
