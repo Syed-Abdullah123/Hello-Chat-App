@@ -252,6 +252,12 @@ const CallScreen = ({ route, navigation }) => {
     // Socket event listeners
     console.log("Setting up socket event listeners");
 
+    // If we're accepting the call, after setting up WebRTC but before handling the offer
+    if (isIncoming) {
+      console.log("Sending call accepted signal");
+      socket.emit("accept_call", { to: user.id });
+    }
+
     const handleWebRTCOffer = async ({ sdp, from }) => {
       console.log("Received offer from:", from);
       if (!peerConnection.current) {
@@ -459,6 +465,30 @@ const CallScreen = ({ route, navigation }) => {
     // Navigate back
     if (isMounted.current) {
       navigation.goBack();
+    }
+  };
+
+  // Add this function to your CallScreen component - it's critical for call connection
+  const answerCall = async () => {
+    try {
+      if (!peerConnection.current) {
+        console.error("No peer connection when creating answer");
+        return;
+      }
+
+      console.log("Creating answer");
+      const answer = await peerConnection.current.createAnswer();
+
+      console.log("Setting local description (answer)");
+      await peerConnection.current.setLocalDescription(answer);
+
+      console.log("Sending answer");
+      socket.emit("webrtc_answer", {
+        to: user.id,
+        sdp: peerConnection.current.localDescription,
+      });
+    } catch (err) {
+      console.error("Error creating answer:", err);
     }
   };
 
