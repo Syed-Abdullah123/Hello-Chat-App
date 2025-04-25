@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
+import { doc, getDoc } from "firebase/firestore";
+import { FIREBASE_DB } from "../firebase/config";
 
 export function ChattingScreenHeaderComponent({
   route,
@@ -8,15 +10,36 @@ export function ChattingScreenHeaderComponent({
   isOnline,
 }: any) {
   const { user } = route.params;
+  const { getCurrentUserId } = require("../utils/socket");
+
+  // You need to store your own user information somewhere
+  // For example, from your auth context or local storage
+  const [currentUserInfo, setCurrentUserInfo] = useState(null);
+
+  // Fetch current user info when component mounts
+  useEffect(() => {
+    const fetchCurrentUserInfo = async () => {
+      // Get your user data from Firebase or your auth system
+      // This is just an example - replace with your actual user data retrieval
+      const userDoc = await getDoc(
+        doc(FIREBASE_DB, "users", getCurrentUserId())
+      );
+      if (userDoc.exists()) {
+        setCurrentUserInfo(userDoc.data());
+      }
+    };
+
+    fetchCurrentUserInfo();
+  }, []);
 
   const initiateCallHandler = (callType) => {
     const { initiateCall } = require("../utils/socket");
 
+    // Use YOUR user info, not the chat partner's
     const currentUser = {
-      // Replace with your actual current user data
-      id: user.id,
-      name: user.name,
-      image: user.image,
+      id: getCurrentUserId(),
+      name: currentUserInfo?.name || "User", // Your name
+      image: currentUserInfo?.image || "https://via.placeholder.com/150", // Your image
     };
 
     // Notify receiver about call
