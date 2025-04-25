@@ -6,20 +6,25 @@ const socket = io("http://192.168.10.7:3000", {
     autoConnect: false
 });
 
-export default socket;
-
 // Store current user ID for reference
-let currentUserId = null;
+let currentUserId: any = null;
 
 export const connectSocket = (userId) => {
+  if (!userId) return;
+  
   currentUserId = userId;
+  
   if (!socket.connected) {
     socket.connect();
     
-    // Register user ID with server
+    socket.on('connect', () => {
+      console.log('Socket connected, registering user:', userId);
+      // Register user ID with server AFTER connection
+      socket.emit('register_user', { userId });
+    });
+  } else {
+    // If already connected, just register
     socket.emit('register_user', { userId });
-    
-    console.log('Socket connecting with user ID:', userId);
   }
 };
 
@@ -57,3 +62,6 @@ export const endCall = (receiverId) => {
     to: receiverId
   });
 };
+
+export const getCurrentUserId = () => currentUserId;
+export default socket;
