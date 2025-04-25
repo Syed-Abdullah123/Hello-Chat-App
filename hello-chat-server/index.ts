@@ -22,9 +22,12 @@ io.on("connection", (socket) => {
 
   socket.on("register_user", ({ userId }) => {
     console.log(`User ${userId} registered with socket ${socket.id}`);
+    
+    // Store both mappings
     connectedUsers.set(userId, socket.id);
-    // Also store reverse lookup
-    connectedUsers.set(socket.id, userId);
+    connectedUsers.set(socket.id, userId)
+
+    socket.broadcast.emit("user_status_change", { userId, status: "online" });
   });
 
   socket.on("send_message", (data) => {
