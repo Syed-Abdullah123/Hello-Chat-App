@@ -7,7 +7,10 @@ const IncomingCallScreen = ({ route, navigation }) => {
   const { caller, callType } = route.params;
 
   const handleAccept = () => {
+    // First send accept call signal so caller knows we're accepting
     acceptCall(caller.id);
+
+    // Then navigate to call screen
     navigation.replace("Call", {
       user: caller,
       callType: callType,
