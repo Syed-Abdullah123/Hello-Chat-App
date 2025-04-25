@@ -24,39 +24,26 @@ const ChatScreen = ({ navigation, route }: any) => {
   const { user } = route.params;
   const [messages, setMessages] = useState<Message[]>([]);
   const [isOnline, setIsOnline] = useState(false);
+  const { getCurrentUserId } = require("../utils/socket");
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
       setMessages((prev) => [data, ...prev]);
     });
 
-    return () => {
-      socket.off("receive_message");
-    };
-  }, []);
-
-  useEffect(() => {
-    console.log("Connecting to socket...");
-    socket.connect();
+    // Check connection status
+    setIsOnline(socket.connected);
 
     socket.on("connect", () => {
       console.log("✅ Connected to socket server!", socket.id);
-      setIsOnline(true); // online
+      setIsOnline(true);
     });
 
     socket.on("disconnect", () => {
       console.log("🔴 Disconnected from socket server.");
-      setIsOnline(false); // offline
+      setIsOnline(false);
     });
 
-    return () => {
-      socket.disconnect();
-      socket.off("connect");
-      socket.off("disconnect");
-    };
-  }, []);
-
-  useEffect(() => {
     // Listen for incoming calls
     const incomingCallHandler = ({ callType, caller }) => {
       console.log("Incoming call received", caller, callType);
@@ -70,9 +57,62 @@ const ChatScreen = ({ navigation, route }: any) => {
     socket.on("incoming_call", incomingCallHandler);
 
     return () => {
+      // Just remove listeners but don't disconnect
+      socket.off("receive_message");
+      socket.off("connect");
+      socket.off("disconnect");
       socket.off("incoming_call", incomingCallHandler);
     };
   }, [navigation]);
+
+  // useEffect(() => {
+  //   socket.on("receive_message", (data) => {
+  //     setMessages((prev) => [data, ...prev]);
+  //   });
+
+  //   return () => {
+  //     socket.off("receive_message");
+  //   };
+  // }, []);
+
+  // useEffect(() => {
+  //   console.log("Connecting to socket...");
+  //   socket.connect();
+
+  //   socket.on("connect", () => {
+  //     console.log("✅ Connected to socket server!", socket.id);
+  //     setIsOnline(true); // online
+  //   });
+
+  //   socket.on("disconnect", () => {
+  //     console.log("🔴 Disconnected from socket server.");
+  //     setIsOnline(false); // offline
+  //   });
+
+  //   return () => {
+  //     socket.disconnect();
+  //     socket.off("connect");
+  //     socket.off("disconnect");
+  //   };
+  // }, []);
+
+  // useEffect(() => {
+  //   // Listen for incoming calls
+  //   const incomingCallHandler = ({ callType, caller }) => {
+  //     console.log("Incoming call received", caller, callType);
+  //     // Navigate to incoming call screen
+  //     navigation.navigate("IncomingCall", {
+  //       caller,
+  //       callType,
+  //     });
+  //   };
+
+  //   socket.on("incoming_call", incomingCallHandler);
+
+  //   return () => {
+  //     socket.off("incoming_call", incomingCallHandler);
+  //   };
+  // }, [navigation]);
 
   const sendMessage = (message) => {
     const msgData = {
