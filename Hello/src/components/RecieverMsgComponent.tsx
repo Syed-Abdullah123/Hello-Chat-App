@@ -1,13 +1,15 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 
-export default function ReceiverMessageComponent({ item }) {
+export default function ReceiverMessageComponent({ item, route }) {
+  const { user } = route.params;
+
   return (
     <>
       <View style={styles.recvContainer}>
-        <Image source={{ uri: item.image }} style={styles.userImage} />
+        <Image source={{ uri: user.image }} style={styles.userImage} />
         <View>
-          <Text style={styles.userName}>{item.sender}</Text>
+          <Text style={styles.userName}>{user.name}</Text>
           <View style={styles.container}>
             <Text>{item.message}</Text>
           </View>
