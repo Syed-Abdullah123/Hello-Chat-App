@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { acceptCall, rejectCall } from "../utils/socket";
+import { StatusBar } from "expo-status-bar";
 
 const IncomingCallScreen = ({ route, navigation }) => {
   const { caller, callType } = route.params;
@@ -48,6 +49,7 @@ const IncomingCallScreen = ({ route, navigation }) => {
           <Ionicons name="call" size={30} color="white" />
         </TouchableOpacity>
       </View>
+      <StatusBar style="auto" backgroundColor="transparent" />
     </View>
   );
 };
