@@ -139,6 +139,13 @@ const CallScreen = ({ route, navigation }) => {
 
       try {
         for (const candidate of iceCandidatesQueue.current) {
+          console.log(
+            `Adding ICE candidate from queue: ${
+              candidate.candidate
+                ? candidate.candidate.substring(0, 50) + "..."
+                : "null"
+            }`
+          );
           await peerConnection.current.addIceCandidate(
             new RTCIceCandidate(candidate)
           );
@@ -271,17 +278,20 @@ const CallScreen = ({ route, navigation }) => {
           new RTCSessionDescription(sdp)
         );
 
-        console.log("Creating answer");
-        const answer = await peerConnection.current.createAnswer();
+        // If we're the callee (receiving the call), create an answer
+        if (!isInitiator.current) {
+          console.log("Creating answer");
+          const answer = await peerConnection.current.createAnswer();
 
-        console.log("Setting local description (answer)");
-        await peerConnection.current.setLocalDescription(answer);
+          console.log("Setting local description (answer)");
+          await peerConnection.current.setLocalDescription(answer);
 
-        console.log("Sending answer");
-        socket.emit("webrtc_answer", {
-          to: user.id,
-          sdp: peerConnection.current.localDescription,
-        });
+          console.log("Sending answer");
+          socket.emit("webrtc_answer", {
+            to: user.id,
+            sdp: peerConnection.current.localDescription,
+          });
+        }
 
         // Process any queued ICE candidates now that we have the remote description
         await processIceCandidates();
@@ -327,7 +337,7 @@ const CallScreen = ({ route, navigation }) => {
       try {
         // If we already have a remote description, add the candidate immediately
         if (peerConnection.current.remoteDescription) {
-          console.log("Adding ICE candidate");
+          console.log("Adding ICE candidate directly");
           await peerConnection.current.addIceCandidate(
             new RTCIceCandidate(candidate)
           );
@@ -614,7 +624,7 @@ const styles = StyleSheet.create({
   },
   localVideoWrapper: {
     position: "absolute",
-    top: 60,
+    top: 80,
     right: 20,
     width: 100,
     height: 150,
@@ -629,7 +639,7 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     position: "absolute",
-    top: 20,
+    top: 40,
     left: 0,
     right: 0,
     alignItems: "center",
