@@ -65,55 +65,6 @@ const ChatScreen = ({ navigation, route }: any) => {
     };
   }, [navigation]);
 
-  // useEffect(() => {
-  //   socket.on("receive_message", (data) => {
-  //     setMessages((prev) => [data, ...prev]);
-  //   });
-
-  //   return () => {
-  //     socket.off("receive_message");
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log("Connecting to socket...");
-  //   socket.connect();
-
-  //   socket.on("connect", () => {
-  //     console.log("✅ Connected to socket server!", socket.id);
-  //     setIsOnline(true); // online
-  //   });
-
-  //   socket.on("disconnect", () => {
-  //     console.log("🔴 Disconnected from socket server.");
-  //     setIsOnline(false); // offline
-  //   });
-
-  //   return () => {
-  //     socket.disconnect();
-  //     socket.off("connect");
-  //     socket.off("disconnect");
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   // Listen for incoming calls
-  //   const incomingCallHandler = ({ callType, caller }) => {
-  //     console.log("Incoming call received", caller, callType);
-  //     // Navigate to incoming call screen
-  //     navigation.navigate("IncomingCall", {
-  //       caller,
-  //       callType,
-  //     });
-  //   };
-
-  //   socket.on("incoming_call", incomingCallHandler);
-
-  //   return () => {
-  //     socket.off("incoming_call", incomingCallHandler);
-  //   };
-  // }, [navigation]);
-
   const sendMessage = (message) => {
     const msgData = {
       sender: user.name,
@@ -143,7 +94,7 @@ const ChatScreen = ({ navigation, route }: any) => {
             item.sender === user.name ? (
               <SenderMessageComponent item={item} />
             ) : (
-              <ReceiverMessageComponent item={item} />
+              <ReceiverMessageComponent item={item} route={route} />
             )
           }
           inverted
