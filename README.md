@@ -35,7 +35,6 @@ Here’s a preview of what Guftaar looks like:
   <img src="Hello/assets/screenshots/g6.jpg" width="200" />
   <img src="Hello/assets/screenshots/g7.jpg" width="200" />
   <img src="Hello/assets/screenshots/g8.jpg" width="200" />
-  <img src="Hello/assets/screenshots/g1.jpg" width="200" />
 </div>
 
 
