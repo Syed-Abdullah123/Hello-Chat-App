@@ -22,6 +22,22 @@ A real-time chat application built with **React Native (Expo)** and **Firebase**
 | Calling            | WebRTC                                        |
 | Navigation         | React Navigation                              |
 
+## Screenshots
+
+Here’s a preview of what Guftaar looks like:
+
+<div style="flex-direction: row; gap: 10px;">
+  <img src="Hello/assets/screenshots/g1.jpg" width="200" />
+  <img src="Hello/assets/screenshots/g2.jpg" width="200" />
+  <img src="Hello/assets/screenshots/g3.jpg" width="200" />
+  <img src="Hello/assets/screenshots/g4.jpg" width="200" />
+  <img src="Hello/assets/screenshots/g5.jpg" width="200" />
+  <img src="Hello/assets/screenshots/g6.jpg" width="200" />
+  <img src="Hello/assets/screenshots/g7.jpg" width="200" />
+  <img src="Hello/assets/screenshots/g8.jpg" width="200" />
+  <img src="Hello/assets/screenshots/g1.jpg" width="200" />
+</div>
+
 
 ## Getting Started
 
@@ -89,22 +105,6 @@ io.on("connection", (socket) => {
   });
 });
 ```
-## Screenshots
-
-Here’s a preview of what Guftaar looks like:
-
-<div style="flex-direction: row; gap: 10px;">
-  <img src="Hello/assets/screenshots/g1.jpg" width="200" />
-  <img src="Hello/assets/screenshots/g2.jpg" width="200" />
-  <img src="Hello/assets/screenshots/g3.jpg" width="200" />
-  <img src="Hello/assets/screenshots/g4.jpg" width="200" />
-  <img src="Hello/assets/screenshots/g5.jpg" width="200" />
-  <img src="Hello/assets/screenshots/g6.jpg" width="200" />
-  <img src="Hello/assets/screenshots/g7.jpg" width="200" />
-  <img src="Hello/assets/screenshots/g8.jpg" width="200" />
-  <img src="Hello/assets/screenshots/g1.jpg" width="200" />
-</div>
-
 
 ## Contact
 
